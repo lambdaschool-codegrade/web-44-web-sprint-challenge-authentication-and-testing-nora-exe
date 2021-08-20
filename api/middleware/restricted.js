@@ -8,23 +8,21 @@
     the response body should include a string exactly as follows: "token invalid".
 */
 
-// const restricted = (req, res, next) => {
-//   const token = req.headers.authorization
-//   if (!token) {
-//     return next({ status: 401, message: 'token required' })
-//   }
-//   jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
-//     if (err) {
-//       next({ status: 401, message: 'Token invalid' })
-//     } else {
-//       req.decodedToken = decodedToken
-//       next()
-//     }
-//   })
-// }
+const restricted = (req, res, next) => {
+  const token = req.headers.authorization
+  if (!token) {
+    return next({ status: 401, message: 'token required' })
+  }
+  jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
+    if (err) {
+      next({ status: 401, message: 'Token invalid' })
+    } else {
+      req.decodedToken = decodedToken
+      next()
+    }
+  })
+}
 
-// module.exports = {
-//   restricted,
-// };
+module.exports = restricted;
 
-module.exports = (req, res, next) => { next() }
+// module.exports = (req, res, next) => { next() }
