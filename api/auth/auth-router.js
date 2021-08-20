@@ -31,7 +31,7 @@ router.post('/register', (req, res) => {
       the response body should include a string exactly as follows: "username taken".
   */
       const { username, password } = req.body
-      const hash = bcrypt.hashSync(password, 8)
+      const hash = bcrypt.hashSync(password, process.env.ROUNDS || 8)
       User.add({ username, password: hash })
         .then(newUser => {
           res.status(201).json(newUser)
