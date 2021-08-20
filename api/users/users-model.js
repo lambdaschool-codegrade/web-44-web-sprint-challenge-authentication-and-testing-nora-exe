@@ -6,6 +6,13 @@ function find() {
     return db('users').select('id', 'username')
 }
 
+// Resolves to an ARRAY with all users that match the filter condition.
+function findBy(filter) {
+    return db('users')
+        .select('id', 'username', 'password')
+        .where(filter)
+}
+
 // resolves to the user { user_id, username } with the given user_id
 function findById(user_id) {
 return db('users')
@@ -22,6 +29,7 @@ async function add(user) {
 // Don't forget to add these to the `exports` object so they can be required in other modules
 module.exports = {
     find,
+    findBy,
     findById,
     add
 }

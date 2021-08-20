@@ -39,7 +39,7 @@ router.post('/register', (req, res, next) => {
         .catch(next)
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
@@ -81,5 +81,16 @@ router.post('/login', (req, res) => {
     next({ status: 401, message: 'Invalid credentials' })
   }
 });
+
+function buildToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+  }
+  const options = {
+    expiresIn: '1d'
+  }
+  return jwt.sign(payload, JWT_SECRET, options)
+}
 
 module.exports = router;
