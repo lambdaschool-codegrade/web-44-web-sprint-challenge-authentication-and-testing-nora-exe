@@ -1,10 +1,11 @@
-const router = require('express').Router();
+const authRouter = require('express').Router();
+const postRouter = require('express').Router();
 const { JWT_SECRET } = require('../secrets');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../users/users-model');
 
-router.post('/register', (req, res, next) => {
+postRouter.post('/', (req, res, next) => {
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
@@ -39,7 +40,7 @@ router.post('/register', (req, res, next) => {
         .catch(next)
 });
 
-router.post('/login', (req, res, next) => {
+authRouter.post('/', (req, res, next) => {
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
@@ -93,4 +94,7 @@ function buildToken(user) {
   return jwt.sign(payload, JWT_SECRET, options)
 }
 
-module.exports = router;
+module.exports = {
+  postRouter,
+  authRouter
+};

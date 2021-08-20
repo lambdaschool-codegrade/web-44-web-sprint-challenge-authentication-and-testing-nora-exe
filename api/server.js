@@ -4,7 +4,7 @@ const helmet = require('helmet');
 
 const {restricted, checkUsernameExists} = require('./middleware/restricted.js');
 
-const authRouter = require('./auth/auth-router.js');
+const { postRouter, authRouter } = require('./auth/auth-router.js');
 const jokesRouter = require('./jokes/jokes-router.js');
 
 const server = express();
@@ -13,7 +13,8 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-server.use('/api/auth', checkUsernameExists, authRouter);
+server.use('/api/auth/register', postRouter); // no middleware
+server.use('/api/auth/login', checkUsernameExists, authRouter);
 server.use('/api/jokes', restricted, jokesRouter); // only logged-in users should have access!
 
 server.use((err, req, res, next) => { // eslint-disable-line
